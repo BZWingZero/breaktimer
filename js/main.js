@@ -136,9 +136,9 @@ function checkNext(recordNum) {
 
 		var retrievedRecord = localStorage.getItem('breakRecord'+i);
 		console.log(JSON.parse(retrievedRecord));
-		if (JSON.parse(retrievedRecord)[0] === 0) {
+		if (retrievedRecord[0] === 0) {
 			completedBreakType = "coffee";
-		} else if(JSON.parse(retrievedRecord)[0] ===1){
+		} else if(retrievedRecord[0] ===1){
 			completedBreakType = "pizza";
 		}
 
