@@ -1,12 +1,15 @@
+var name = 'Brian';
+
+var breakEnds = new Date();
+var currTime = new Date();
+
+var breakLen = 15;
+var mealLen = 60;
+
+var breakType = 0; // 0 is break, 1 is meal
+var recordNum;
+
 $(document).ready(function(){
-
-	var name = 'Brian';
-
-	var breakEnds = new Date();
-	var currTime = new Date();
-
-	var breakLen = 15;
-	var mealLen = 60;
 
 	$('.break-start').height($('.break-start').width());
 	$(window).resize(function(){
@@ -21,11 +24,13 @@ $(document).ready(function(){
 
 	//controls the click to start a break
 	$('#coffee').click(function(){
+		breakType = 0;
 		$('.timer').html(breakLen+':00');
 		getStartTime(breakLen);
 		breakStart();
 	});
 	$('#pizza').click(function(){
+		breakType = 1;
 		$('.timer').html(mealLen+':00');
 		getStartTime(mealLen);
 		breakStart();
@@ -69,23 +74,86 @@ $(document).ready(function(){
 
 			//Stops the timer when time runs out
 			if(secondsLeft === 0){
-				clearInterval(timer);
+				breakEnd(timer);
 			}
 		}, 1000);
 
 		//Ends the timer when the stop button is clicked
 		$('.end-break').click(function() {
-			clearInterval(timer);
-			$('.break-start').height($('.break-start').width());
-			$('.break-running-wrapper').hide();
-			$('.btn-wrapper').fadeIn('200');
-			$('.break-start').height($('.break-start').width());
+			breakEnd(timer);
 		});
 		
 	}
 
 });
 
+if(!localStorage.recordCount) {
+	populateHistory();
+} else {
+	recordNum = localStorage.recordCount;
+	console.log(recordNum);
+	checkNext(recordNum);
+}
+
+function breakEnd(timer) {
+	clearInterval(timer);
+	$('.break-start').height($('.break-start').width());
+	$('.break-running-wrapper').hide();
+	$('.btn-wrapper').fadeIn('200');
+	$('.break-start').height($('.break-start').width());
+
+	t = new Date();
+
+	var completedBreakStart = currTime.getTime();
+	var completedBreakEnd = t.getTime();
+
+	if(breakType === 0) {
+		localStorage.setItem('breakType', 'coffee');
+	} else {
+		localStorage.setItem('breakType', 'pizza');
+	}
+
+	var breakRecord = [breakType, completedBreakStart, completedBreakEnd];
+	recordNum++;
+	console.log(recordNum);
+	localStorage.recordCount = recordNum;
+	localStorage.setItem('breakRecord'+recordNum, JSON.stringify(breakRecord));
+	console.log('stored new break record');
+}
+
+function populateHistory() {
+	console.log('populate');
+	recordNum = 0;
+	localStorage.recordCount = recordNum;
+}
+
+function checkNext(recordNum) {
+	for(i = 0; i <= recordNum && i < 5; i++) {
+	//if(localStorage.getItem('breakRecord'+recordNum) !== null) {
+		var completedBreakStart = new Date();
+		var completedBreakEnd = new Date();
+		var completedBreakType;
+
+		var retrievedRecord = localStorage.getItem('breakRecord'+i);
+		console.log(JSON.parse(retrievedRecord));
+		if (JSON.parse(retrievedRecord)[0] === 0) {
+			completedBreakType = "coffee";
+		} else if(JSON.parse(retrievedRecord)[0] ===1){
+			completedBreakType = "pizza";
+		}
+
+		completedBreakStart.setTime(JSON.parse(retrievedRecord)[1]);
+		completedBreakEnd.setTime(JSON.parse(retrievedRecord)[2]);
+
+		$('.list-group').prepend('<li class="list-group-item" id="first-history"><h4><div class="history-list-span '+completedBreakType+'"></div>Break from <strong>'+completedBreakStart.toLocaleTimeString()+'</strong> to <strong>'+completedBreakEnd.toLocaleTimeString()+'</strong></li>');
+		//recordNum++;
+		//checkNext(recordNum);
+	 } //else {
+	// 	console.log('end of records. '+recordNum+' of records found.');
+	// }
+}
+
+//The following two variables store the svgs for the buttons
 var coffeeSVG = '<svg viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" preserveAspectRatio="xMinYMin meet" class="svg-content" xml:space="preserve">\
 	<path d="M383.1,257.4c0.6-5.4,0.9-10,0.9-13.8c0-19.6-3.3-19.7-16-19.7h-75.5c7.3-12,11.5-24.4,11.5-37c0-37.9-57.3-56.4-57.3-88\
 	c0-11.7,5.1-21.3,9.3-34.9c-26.5,7-47.4,33.5-47.4,61.6c0,48.3,56.3,48.7,56.3,84.8c0,4.5-1.4,8.5-2.1,13.5h-55.9\
