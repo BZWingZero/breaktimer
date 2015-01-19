@@ -1,0 +1,165 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+	padding-top: 70px;
+	background-color: #ddd;
+}
+
+.nav {
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,.3);
+}
+
+.header-row {
+
+}
+
+.btn-wrapper {
+	padding: 25px;
+}
+
+.btn-row {
+
+}
+
+.btn-primary {
+	border: 0px;
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,.3);
+}
+
+#coffee {
+	fill: white;
+}
+
+#pizza {
+	fill: white;
+}
+
+.svg-content {
+	min-height: 20px;
+}
+
+.break-running-wrapper {
+	margin-bottom: 160px;
+}
+
+.break-timer {
+	height: 111px;
+	background-color: #fff;
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,.3);
+}
+
+.timer {
+	margin:20px;
+	font-size: 65px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+	box-shadow: 0px 2px 7px 0px rgba(0,0,0,.5);
+	background-color: rgba(70, 150, 239, 1);
+}
+
+.end-break {
+	border-radius: 50%;
+	width:48px;
+	height:48px;
+	position: relative;
+	bottom: 25px;
+	z-index: 10;
+}
+
+.history {
+	padding: 0px;
+	color: #333;
+	background-color: #FFC107;
+	box-shadow: 0px -2px 5px 0px rgba(0,0,0,.3);
+}
+
+.history .header {
+	margin-left: 15px;
+}
+
+.history .list-group {
+	color: #fff;
+	background-color: #B71C1C;
+	box-shadow: 0px -2px 5px 0px rgba(0,0,0,.3);
+}
+
+.history-list-span {
+	border-radius: 40px;
+	background-color: #ffffff;
+	padding: 8px;
+	display:inline-block;
+	height: inherit;
+	margin-right: 8px;
+}
+
+.history-list-span .svg-content {
+	height: 20px;
+	vertical-align: middle;
+}
+
+.history-list-span.coffee > .svg-content {
+	margin-bottom: 4px;
+	margin-left: 2px;
+}
+
+.list-group-item:hover, .list-group-item:focus{
+	background-color: #F44336;
+}
+
+@media(min-width:992px){
+	.history {
+		box-shadow: 0px 2px 5px 0px rgba(0,0,0,.3);
+	}
+}
+
+.history-row {
+	height: inherit;
+	z-index: 0;
+}
+
+.list-group{
+	min-width: 100%;
+	margin-bottom: 0px;
+}
+.list-group-item {
+	background-color: transparent;
+	border: none;
+}
+
+.list-group-item h4 {
+	margin: 5px 0px;
+}
+
+.list-group-item h4 .label {
+	margin-top: 10px;
+}
+
+@media(max-width:767px){
+	body {
+		background-color: #fff;
+	}
+	.timer {
+		font-size:75px;
+	}
+	.end-break{
+		bottom: -25px;
+		right: 16px;
+	}
+	.break-running-wrapper, .break-timer {
+		padding: 0px;
+		margin:0px;
+	}
+	.break-timer {
+		height: auto;
+		box-shadow: none;
+	}
+	.list-group-item h4 .label {
+		display:none;
+	}
+}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}
+ No newline at end of file
