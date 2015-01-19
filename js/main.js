@@ -118,7 +118,7 @@ function breakEnd(timer) {
 	console.log(recordNum);
 	localStorage.recordCount = recordNum;
 	localStorage.setItem('breakRecord'+recordNum, JSON.stringify(breakRecord));
-	console.log('stored new break record');
+	console.log('stored new break record: '+localStorage.getItem('breakRecord'+recordNum));
 }
 
 function populateHistory() {
