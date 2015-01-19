@@ -3,7 +3,7 @@ var name = 'Brian';
 var breakEnds = new Date();
 var currTime = new Date();
 
-var breakLen = 15;
+var breakLen = 1;
 var mealLen = 60;
 
 var breakType = 0; // 0 is break, 1 is meal
@@ -75,6 +75,7 @@ $(document).ready(function(){
 			//Stops the timer when time runs out
 			if(secondsLeft === 0){
 				breakEnd(timer);
+				playAlarm();
 			}
 		}, 1000);
 
@@ -108,13 +109,11 @@ function breakEnd(timer) {
 	var completedBreakEnd = t.getTime();
 
 	var breakRecord = [breakType, completedBreakStart, completedBreakEnd];
-	console.log(recordNum);
-	recordNum++;
-	localStorage.recordCount = recordNum;
-	recordNum--;
+	
 	localStorage.setItem('breakRecord'+recordNum, JSON.stringify(breakRecord));
 	console.log('stored new break record: '+localStorage.getItem('breakRecord'+recordNum));
 	recordNum++
+	localStorage.recordCount = recordNum;
 }
 
 function populateHistory() {
@@ -137,15 +136,25 @@ function checkNext(recordNum) {
 			completedBreakType = "pizza";
 		}
 
+		var cbt;
+		if (completedBreakType === "coffee") {
+			cbt = "break"
+		} else if (completedBreakType === "pizza") {
+			cbt = "break"
+		}
+
 		completedBreakStart.setTime(JSON.parse(retrievedRecord)[1]);
 		completedBreakEnd.setTime(JSON.parse(retrievedRecord)[2]);
 
 		$('.list-group').prepend('<li class="list-group-item" id="first-history"><h4><div class="history-list-span '+completedBreakType+'"></div>Break from <strong>'+completedBreakStart.toLocaleTimeString()+'</strong> to <strong>'+completedBreakEnd.toLocaleTimeString()+'</strong></li>');
-		//recordNum++;
-		//checkNext(recordNum);
+		$('.header').html('Your last <span class="recent-type">'+cbt+'</span> was at <span class="recent-time">'+completedBreakStart.toLocaleTimeString()+'</span>.');
 	 } //else {
 	// 	console.log('end of records. '+recordNum+' of records found.');
 	// }
+}
+
+function playAlarm() {
+	document.getElementById('alarm').play();
 }
 
 //The following two variables store the svgs for the buttons
