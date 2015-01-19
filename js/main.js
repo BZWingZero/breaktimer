@@ -13,12 +13,13 @@ $(document).ready(function(){
 		$('.break-start').height($('.break-start').width());
 	});
 
+	//Loads the images
 	$('.coffee').html(coffeeSVG);
-
 	$('.pizza').html(pizzaSVG);
 
 	$('.welcome').html('Welcome '+name+'!');
 
+	//controls the click to start a break
 	$('#coffee').click(function(){
 		$('.timer').html(breakLen+':00');
 		getStartTime(breakLen);
@@ -75,8 +76,10 @@ $(document).ready(function(){
 		//Ends the timer when the stop button is clicked
 		$('.end-break').click(function() {
 			clearInterval(timer);
+			$('.break-start').height($('.break-start').width());
 			$('.break-running-wrapper').hide();
 			$('.btn-wrapper').fadeIn('200');
+			$('.break-start').height($('.break-start').width());
 		});
 		
 	}
