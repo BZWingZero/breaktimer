@@ -107,18 +107,14 @@ function breakEnd(timer) {
 	var completedBreakStart = currTime.getTime();
 	var completedBreakEnd = t.getTime();
 
-	if(breakType === 0) {
-		localStorage.setItem('breakType', 'coffee');
-	} else {
-		localStorage.setItem('breakType', 'pizza');
-	}
-
 	var breakRecord = [breakType, completedBreakStart, completedBreakEnd];
-	recordNum++;
 	console.log(recordNum);
+	recordNum++;
 	localStorage.recordCount = recordNum;
+	recordNum--;
 	localStorage.setItem('breakRecord'+recordNum, JSON.stringify(breakRecord));
 	console.log('stored new break record: '+localStorage.getItem('breakRecord'+recordNum));
+	recordNum++
 }
 
 function populateHistory() {
@@ -128,17 +124,16 @@ function populateHistory() {
 }
 
 function checkNext(recordNum) {
-	for(i = 0; i <= recordNum && i < 5; i++) {
-	//if(localStorage.getItem('breakRecord'+recordNum) !== null) {
+	for(i = 0; i < recordNum && i < 5; i++) {
 		var completedBreakStart = new Date();
 		var completedBreakEnd = new Date();
 		var completedBreakType;
 
 		var retrievedRecord = localStorage.getItem('breakRecord'+i);
 		console.log(JSON.parse(retrievedRecord));
-		if (retrievedRecord[0] === 0) {
+		if (JSON.parse(retrievedRecord)[0] === 0) {
 			completedBreakType = "coffee";
-		} else if(retrievedRecord[0] ===1){
+		} else if(JSON.parse(retrievedRecord)[0] ===1){
 			completedBreakType = "pizza";
 		}
 
