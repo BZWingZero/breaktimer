@@ -3,7 +3,7 @@ var name = 'Brian';
 var breakEnds = new Date();
 var currTime = new Date();
 
-var breakLen = 15;
+var breakLen = 1;
 var mealLen = 60;
 
 var breakType = 0; // 0 is break, 1 is meal
