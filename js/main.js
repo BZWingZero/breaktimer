@@ -1,5 +1,3 @@
-var name = 'Brian';
-
 var breakEnds = new Date();
 var currTime = new Date();
 
@@ -17,8 +15,7 @@ $(document).ready(function(){
 	});
 
 	//Loads the images
-	$('.coffee').html(coffeeSVG);
-	$('.pizza').html(pizzaSVG);
+	loadImages();
 
 	$('.welcome').html('Welcome!');
 
@@ -36,6 +33,12 @@ $(document).ready(function(){
 		breakStart();
 	});
 
+	$('.refresh').click(function() {
+		$('.list-group').empty();
+		checkNext(recordNum);
+		loadImages();
+	});
+
 	function getStartTime(len) {
 		currTime.getTime();
 		breakEnds.setTime(currTime.getTime()+(len*60000));
@@ -44,6 +47,8 @@ $(document).ready(function(){
 	function breakStart() {
 		var h, m, s;
 		var onBreak = true;
+
+		$('.refresh').hide();
 
 		$('.btn-wrapper').hide();
 		$('.header-row').hide();
@@ -102,6 +107,7 @@ function breakEnd(timer) {
 	$('.break-running-wrapper').hide();
 	$('.btn-wrapper').fadeIn('200');
 	$('.break-start').height($('.break-start').width());
+	$('.refresh').fadeIn('200');
 
 	t = new Date();
 
@@ -111,19 +117,17 @@ function breakEnd(timer) {
 	var breakRecord = [breakType, completedBreakStart, completedBreakEnd];
 	
 	localStorage.setItem('breakRecord'+recordNum, JSON.stringify(breakRecord));
-	//console.log('stored new break record: '+localStorage.getItem('breakRecord'+recordNum));
 	recordNum++
 	localStorage.recordCount = recordNum;
 }
 
 function populateHistory() {
-	//console.log('populate');
 	recordNum = 0;
 	localStorage.recordCount = recordNum;
 }
 
 function checkNext(recordNum) {
-	for(i = 0; i < recordNum && i < 5; i++) {
+	for(i = (recordNum-5); i < recordNum; i++) {
 		var completedBreakStart = new Date();
 		var completedBreakEnd = new Date();
 		var completedBreakType;
@@ -148,13 +152,17 @@ function checkNext(recordNum) {
 
 		$('.list-group').prepend('<li class="list-group-item" id="first-history"><h4><div class="history-list-span '+completedBreakType+'"></div>Break from <strong>'+completedBreakStart.toLocaleTimeString()+'</strong> to <strong>'+completedBreakEnd.toLocaleTimeString()+'</strong></li>');
 		$('.header').html('Your last <span class="recent-type">'+cbt+'</span> was at <span class="recent-time">'+completedBreakStart.toLocaleTimeString()+'</span>.');
-	 } //else {
-	// 	console.log('end of records. '+recordNum+' of records found.');
-	// }
+	 } 
 }
 
 function playAlarm() {
-	document.getElementById('alarm').play();
+	//document.getElementById('alarm').play();
+	$('#alarm').trigger('play');
+}
+
+function loadImages() {
+	$('.coffee').html(coffeeSVG);
+	$('.pizza').html(pizzaSVG);
 }
 
 //The following two variables store the svgs for the buttons
